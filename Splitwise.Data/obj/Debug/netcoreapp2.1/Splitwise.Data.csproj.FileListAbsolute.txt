@@ -1,0 +1,14 @@
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Data.deps.json
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Data.dll
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.AssemblyInfoInputs.cache
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.AssemblyInfo.cs
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.csprojAssemblyReference.cache
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Data.runtimeconfig.json
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Data.runtimeconfig.dev.json
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Data.pdb
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Core.dll
+C:\Splitwise\Splitwise.Data\bin\Debug\netcoreapp2.1\Splitwise.Core.pdb
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.csproj.CopyComplete
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.dll
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.pdb
+C:\Splitwise\Splitwise.Data\obj\Debug\netcoreapp2.1\Splitwise.Data.csproj.CoreCompileInputs.cache

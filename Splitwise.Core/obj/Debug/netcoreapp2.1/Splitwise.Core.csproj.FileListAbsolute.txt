@@ -1,0 +1,9 @@
+C:\Splitwise\Splitwise.Core\bin\Debug\netcoreapp2.1\Splitwise.Core.deps.json
+C:\Splitwise\Splitwise.Core\bin\Debug\netcoreapp2.1\Splitwise.Core.dll
+C:\Splitwise\Splitwise.Core\bin\Debug\netcoreapp2.1\Splitwise.Core.pdb
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.AssemblyInfoInputs.cache
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.AssemblyInfo.cs
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.dll
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.pdb
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.csproj.CoreCompileInputs.cache
+C:\Splitwise\Splitwise.Core\obj\Debug\netcoreapp2.1\Splitwise.Core.csprojAssemblyReference.cache
