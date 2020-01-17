@@ -9,6 +9,7 @@ namespace Splitwise.Core
         public int ExpenseId { get; set; }
         public int GroupId { get; set; }
         public string PaidBy { get; set; }
+        public int PaidById { get; set; }
         public string ExpenseName { get; set; }
         public double ExpenseAmount { get; set; }
         public string Currency { get; set; }
@@ -20,7 +21,8 @@ namespace Splitwise.Core
         public string Modified { get; set; }
         public bool IsSettlement { get; set; }
         public bool IsActive { get; set; }
-        public double Total { get; set; }
+        public double LentTotal { get; set; }
+        public double PaidTotal { get; set; }
         public List<RepaymentDetail> repaymentDetails { get; set; }
     }
 }

@@ -17,5 +17,6 @@ namespace Splitwise.Core
         public string Modified { get; set; }
         public string CreatedAt { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPaid { get; set; }
     }
 }

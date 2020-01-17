@@ -9,7 +9,7 @@ namespace Splitwise.Core
     {
         [Key]
         public int TypeId { get; set; }
-        public string Type_name { get; set; }
+        public string TypeName { get; set; }
         public bool IsActive { get; set; }
     }
 }
