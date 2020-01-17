@@ -1,0 +1,286 @@
+<style>
+  .group-bg {
+    background-color: #eee;
+    border-color: #b8babc;
+    color: #000;
+  }
+
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+   .column-sm {
+    float: left;
+    width: 30%;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .is-invalid {
+    color: red;
+  }
+</style>
+<div class="body-content" *ngIf="groupData && expenseData">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start group-bg">
+          <div class="d-flex w-100 justify-content-between">
+            <h3 class="mb-1">
+              <img src="../../assets/images/home icon.png" style="width: 50px;" /> {{groupData[0]?.groupName}}
+              <div style="float: right">
+                <button type="button" class="btn btn-warning" style="background-color:#ff652f;" data-toggle="modal" data-target="#basicExampleModal">
+                  Add an expense
+                </button>
+                <a class="btn btn-warning" style="background-color:#5bc5a7;" data-toggle="modal" data-target="#basicExampleModal1">Settle up</a>
+              </div>
+            </h3>
+          </div>
+        </div>
+        <div *ngFor="let expense of expenseData">
+          <div *ngIf="expense.isSettlement == false" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1"><div class="date" style="float: left; padding: 10px;">{{expense.expenseDate.substring(3, 7)}}<div class="number">{{expense.expenseDate.substring(8, 10)}}</div></div></h5>
+              <img src="../../assets/images/dining-out.png" style="width:50px;float: left;margin: 4px;" />
+              <a><h3 style="float:left;width: 310px;">{{expense.expenseName}}</h3></a>
+              <div style="float: left;padding: 10px;">
+                <h5 class="mb-1"><span *ngIf="userId == expense.paidById">you Paid</span><span *ngIf="userId != expense.paidById">{{expense.paidBy}} Paid</span></h5>
+                <h4>{{expense.currency}} {{expense.expenseAmount}}</h4>
+              </div>
+              <div style="padding: 10px;">
+                <h5 class="mb-1"><span *ngIf="userId == expense.paidById">you lent</span><span *ngIf="userId != expense.paidById">{{expense.paidBy}} lent you</span></h5>
+                <h4 *ngIf="userId == expense.paidById" style="color: #5bc5a7;">{{expense.currency}} {{expense.lentTotal}}</h4>
+                <h4 *ngIf="userId != expense.paidById" style="color: #f00e0e;">{{expense.currency}} {{expense.paidTotal}}</h4>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="expense.isSettlement != false" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <img src="../../assets/images/dollor.png" style="float:left;padding:3px;width:30px" />
+              <a><h5 style="padding-left: 34px;padding-top: 7px;">{{expense.repaymentDetails[0]?.from}} Paid {{expense.repaymentDetails[0]?.to}} {{expense.currency}} {{expense.repaymentDetails[0]?.amount}}</h5></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form>
+      <div class="col-sm-3" *ngIf="expenseData && groupData">
+        <div class="form-group">
+
+          <a class="btn btn-default" (click)="setting=1"><i class="glyphicon glyphicon-align-justify"></i></a>
+          <a class="btn btn-default" (click)="setting=2"><i class="glyphicon glyphicon-cog"></i></a>
+        </div>
+        <div *ngIf="setting === 1">
+          <div class="form-group" style="padding-top: 70px;color: gray;">
+            <label>GROUP BALANCE</label>
+          </div>
+          <div class="form-group" *ngFor="let user of groupData[0].users">
+            <span><i class="glyphicon glyphicon-user"></i></span>
+            <label>{{user.userName}}</label><br />
+            <span *ngIf="user.netBal < 0" style="color:darkred"><h4>Owes {{expenseData[0]?.currency}} {{-user.netBal}}</h4></span>
+            <span *ngIf="user.netBal >= 0" style="color:forestgreen"><h4>gets back {{expenseData[0]?.currency}} {{user.netBal}}</h4></span>
+          </div>
+        </div>
+        <div *ngIf="setting === 2">
+          <div class="form-group" style="padding-top: 70px;color: gray;">
+            <label>GROUP SETTINGS</label>
+          </div>
+          <div class="form-group">
+            <a [routerLink]="['/edit-group', groupData[0].groupId]" class="btn btn-default">Edit group settings</a>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<form [formGroup]="addExpenseForm" (ngSubmit)="OnSubmitAddExpense()">
+  <!-- Modal -->
+  <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true" *ngIf="groupData">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width: 70%;">
+        <div class="modal-header" style="background-color:#5bc5a7">
+          <h3 class="modal-title" style="float:left" id="exampleModalLabel">Add an expense</h3>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            With <strong>You</strong> and :
+            <select class="form-control" multiple formControlName="Users" [ngClass]="{'is-invalid': displayMessage.Users}" required>
+              <option [value]="null" selected>All of {{groupData[0].groupName}}</option>
+              <option *ngFor="let user of users" [value]="user.userId">{{user.userName}}</option>
+            </select>
+            <span class="invalid-feedback">
+              {{displayMessage.Users}}
+            </span>
+          </div>
+          <hr />
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Enter a description" formControlName="ExpenseName" [ngClass]="{'is-invalid': displayMessage.ExpenseName}" required />
+          </div>
+          <div class="form-group" *ngIf="currencyData">
+            <div class="row">
+              <div class="column">
+                <select class="form-control" formControlName="Currency" [ngClass]="{'is-invalid': displayMessage.Currency}" required>
+                  <option *ngFor="let cur of currencyData" [value]="cur.currencyName">{{cur.currencyName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.Currency}}
+                </span>
+              </div>
+              <div class="column">
+                <input type="text" class="form-control" placeholder="0.00" formControlName="ExpenseAmount" [ngClass]="{'is-invalid': displayMessage.ExpenseAmount}" required />
+                <span class="invalid-feedback">
+                  {{displayMessage.ExpenseAmount}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <div class="column">
+                Paid by
+                <select class="form-control" formControlName="PaidBy" [ngClass]="{'is-invalid': displayMessage.PaidBy}" required>
+                  <option *ngFor="let user of groupData[0].users" [attr.selected]="user.userId == userId ? true : null" [value]="user.userId">{{user.userName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.PaidBy}}
+                </span>
+              </div>
+              <div class="column">
+                and split
+                <select class="form-control" formControlName="SplitType" [(ngModel)]="SplitType" [ngClass]="{'is-invalid': displayMessage.SplitType}" required id="change">
+                  <option *ngFor="let type of splitTypeData" [attr.selected]="type.typeId == 1 ? true : null" [value]="type.typeName">{{type.typeName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.SplitType}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="allGroupData">
+            <div class="row">
+              <div class="column">
+                <input type="date" id="date" class="form-control" formControlName="ExpenseDate" [ngClass]="{'is-invalid': displayMessage.ExpenseDate}" required />
+                <span class="invalid-feedback">
+                  {{displayMessage.ExpenseDate}}
+                </span>
+              </div>
+              <div class="column">
+                <select class="form-control" formControlName="GroupId" [ngClass]="{'is-invalid': displayMessage.GroupId}" required>
+                  <option [value]="0">Non-group expenses</option>
+                  <option *ngFor="let all of allGroupData" [ngValue]="all.groupId">{{all.groupName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.GroupId}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Add notes" formControlName="Notes" [ngClass]="{'is-invalid': displayMessage.Notes}" required />
+            <span class="invalid-feedback">
+              {{displayMessage.Notes}}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- settle up -->
+<form [formGroup]="addSettleUpForm" (ngSubmit)="OnSubmitAddSettleUp()">
+  <!-- Modal -->
+  <div class="modal fade" id="basicExampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true" *ngIf="groupData">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="width: 70%;">
+        <div class="modal-header" style="background-color:#5bc5a7">
+          <h3 class="modal-title" style="float:left" id="exampleModalLabel">Add an settle up</h3>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            With <strong>You</strong> paid to  :
+                 <select class="form-control" formControlName="Users" [ngClass]="{'is-invalid': displayMessage.Users}" required>
+                   <option value="" disabled selected>Name</option>
+                   <option *ngFor="let user of users" [value]="user.userId">{{user.userName}}</option>
+                 </select>
+            <span class="invalid-feedback">
+              {{displayMessage.Users}}
+            </span>
+          </div>
+          <hr />
+          
+          <div class="form-group" *ngIf="currencyData">
+            <div class="row">
+              <div class="column">
+                <select class="form-control" formControlName="Currency" [ngClass]="{'is-invalid': displayMessage.Currency}" required placeholder="Add Currency">
+                  <option value="" disabled selected>Currency</option>
+                  <option *ngFor="let cur of currencyData" [value]="cur.currencyName">{{cur.currencyName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.Currency}}
+                </span>
+              </div>
+              <div class="column">
+                <input type="text" class="form-control" placeholder="0.00" formControlName="ExpenseAmount" [ngClass]="{'is-invalid': displayMessage.ExpenseAmount}" required />
+                <span class="invalid-feedback">
+                  {{displayMessage.ExpenseAmount}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="allGroupData">
+            <div class="row">
+              <div class="column">
+                <input type="date" id="date" class="form-control" formControlName="ExpenseDate" [ngClass]="{'is-invalid': displayMessage.ExpenseDate}" required />
+                <span class="invalid-feedback">
+                  {{displayMessage.ExpenseDate}}
+                </span>
+              </div>
+              <div class="column">
+                <select class="form-control" formControlName="GroupId" [ngClass]="{'is-invalid': displayMessage.GroupId}" required>
+                  <option value="" disabled selected>Group Name</option>
+                  <option [value]="0">Non-group expenses</option>
+                  <option *ngFor="let all of allGroupData" [ngValue]="all.groupId">{{all.groupName}}</option>
+                </select>
+                <span class="invalid-feedback">
+                  {{displayMessage.GroupId}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Add notes" formControlName="Notes" [ngClass]="{'is-invalid': displayMessage.Notes}" required />
+            <span class="invalid-feedback">
+              {{displayMessage.Notes}}
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+

@@ -1,0 +1,53 @@
+<style>
+  .group-bg {
+    background-color: #eee;
+    border-color: #b8babc;
+    color: #000;
+  }
+
+  .column {
+    float: left;
+    width: 50%;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .column-sm {
+    float: left;
+    width: 30%;
+    padding: 5px;
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .is-invalid {
+    color: red;
+  }
+</style>
+<div class="body-content" *ngIf="activityData">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start group-bg">
+          <div class="d-flex w-100 justify-content-between">
+            <h3 class="mb-1">
+              Recent Activity
+            </h3>
+          </div>
+        </div>
+        <div *ngFor="let activity of activityData">
+         
+          <div  href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <img src="../../assets/images/activity.png" style="float:left;padding:3px;width:30px" />
+              <h5 style="padding-left: 34px;padding-top: 7px;">{{activity.activityDetails}}</h5>
+              <h5 style="padding-left: 34px;padding-top: 7px;"><i class="glyphicon glyphicon-calendar"></i> {{activity.createdAt.substring(0,15)}}</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

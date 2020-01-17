@@ -1,0 +1,99 @@
+<div class="body-content">
+  <div class="row">
+    <div class="col-sm-4">
+      <img src="../../assets/images/splitwise logo.png" style="float:right;padding-top: 70px; " />
+    </div>
+    <form [formGroup]="addForm" (ngSubmit)="OnSubmit()" >
+      <div class="col-sm-4">
+        <div class="form-group" style="padding-top: 70px;color: gray;">
+          <label>START A NEW GROUP</label>
+        </div>
+        <div class="form-group">
+          <label for="email_address">
+            My group shall be called…
+          </label>
+          <input type="text" placeholder="The Breakfast Club" class="form-control" formControlName="GroupName" required />
+        </div>
+        <div class="form-group">
+          <label for="email_address">
+            My group category …
+          </label>
+          <select class="form-control" formControlName="GroupCategory">
+            <option *ngFor="let cat of categories" [ngValue]="cat.categoryName">{{cat.categoryName}}</option>
+          </select>
+        </div>
+        <hr />
+        <div class="form-group" style="color: gray;">
+          <label>GROUP MEMBERS</label>
+        </div>
+        <div class="form-group" style="padding-left: 26px;" *ngIf="groupId == 0">
+          <span style="padding-right: 5px;"><i class="glyphicon glyphicon-user"></i></span>
+          <label for=" user-info">{{userName}}</label>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group" *ngIf="groupId != 0 && groupData">
+            <table>
+              <tbody>
+                <tr *ngFor="let user of groupData[0].users">
+                  <td>
+                    <span><i class="glyphicon glyphicon-user" style="float: right; padding: 10px;"></i></span>
+                  </td>
+                  <td>
+                    <input class="form-control" placeholder="name" value="{{user.userName}}" required>
+                  </td>
+                  <td>
+                    <input type="email" value="{{user.userEmail}}" class="form-control" placeholder="emailAddress" required>
+                  </td>
+                  <td>
+                    <a class="close" (click)="onRemoveUser(index)"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="form-group">
+            <table>
+              <tbody>
+                <tr *ngFor="let row of addForm.get('rows')?.controls;let index = index;">
+                  <td>
+                    <span><i class="glyphicon glyphicon-user" style="float: right; padding: 10px;"></i></span>
+                  </td>
+                  <td>
+                    <input [formControl]="row.get('name')" class="form-control" placeholder="name" required>
+                  </td>
+                  <td>
+                    <input type="email" [formControl]="row.get('emailAddress')" class="form-control" placeholder="emailAddress" required>
+                  </td>
+                  <td>
+                    <button class="close" (click)="onRemoveRow(index)"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <br />
+          <a (click)="onAddRow()">+ Add a person</a>
+
+          <hr />
+          <div class="form-group" style="color: gray;">
+            <label>SIMPLIFY GROUP DEBTS?</label>
+            <label class="switch">
+              <input type="checkbox" formControlName="SimplifyDebts" value="0">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <hr />
+        <br />
+        <a *ngIf="groupId != 0" [routerLink]="['/view-group',groupId]" class="btn btn-primary">Cancel</a>
+        <button type="submit" class="btn" style="background-color:#ff652f;color:white">Save</button>
+        <br />
+        <br />
+        <div *ngIf="groupId != 0">
+          Or <button type="button"  (click)="DeleteGroup()" style="color:red">delete group</button>
+        </div>
+      </div>
+</form>
+  </div>
+</div>

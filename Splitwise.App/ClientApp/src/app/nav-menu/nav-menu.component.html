@@ -1,0 +1,63 @@
+<style>
+  .navbar-header[_ngcontent-c1] {
+    float: left;
+  }
+
+  .navbar[_ngcontent-c1] li[_ngcontent-c1] {
+    float: left;
+  }
+
+  .vertical-menu {
+  width: 200px;
+}
+
+.vertical-menu a {
+  background-color: #eee;
+  color: black;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.vertical-menu a:hover {
+  background-color: #ccc;
+}
+
+.vertical-menu a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+<nav class="navbar navbar" style="background-color:#5bc5a7">
+  <div class="container-fluid">
+    <div class="navbar-header" style="padding: 10px;">
+      <img src="../../assets/images/splitwise logo.png" style="width:30px" />
+      <a class="navbar-brand" style="color:white;float: none;" href="#">Splitwise</a>
+    </div>
+
+    <div *ngIf="userId == 0" class="form-group" style="float: right;margin: 10px;">
+      <a [routerLink]="['/login']" class="btn btn-success" style="background-color:#5bc5a7; width: 75px;">Log in</a>
+      <span style="color:white">Or</span>
+      <a [routerLink]="['/register']" class="btn btn-warning" style="background-color:#ff652f; width: 75px;">Sign up</a>
+    </div>
+    <div *ngIf="userId != null && userId != 0" class="form-group" style="float: right;margin: 20px;">
+      <div class="btn-group" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                aria-controls="dropdown-basic" style="background-color: #5bc5a7;border-color: #5bc5a7;"><span><i class="glyphicon glyphicon-user"></i></span>
+          {{userName}} <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+            role="menu" aria-labelledby="button-basic">
+          <li role="menuitem"><a class="dropdown-item" href="#">Your account</a></li>
+          <li role="menuitem"><a class="dropdown-item" href="#">Create a group</a></li>
+          <li role="menuitem"><a class="dropdown-item" href="#">Fairness calculators</a></li>
+          <li class="divider dropdown-divider"></li>
+          <li role="menuitem">
+            <a (click)="LogOut()" class="dropdown-item">Logout</a>
+          </li>
+        </ul>
+      </div> 
+    </div>
+  </div>
+</nav>
+

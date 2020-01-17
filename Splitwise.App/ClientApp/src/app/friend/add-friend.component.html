@@ -1,0 +1,37 @@
+<style>
+  .is-invalid{
+    color: red;
+  }
+</style>
+<div class="body-content">
+  <div class="row">
+    <form [formGroup]="addForm" (ngSubmit)="OnSave()">
+      <div class="col-sm-4">
+        <div class="form-group" style="color: gray;">
+          <label *ngIf="friendId == 0">Add Friend</label>
+          <label *ngIf="friendId != 0">Edit Friend</label>
+        </div>
+        <div class="form-group">
+          <label for="UserName">
+            Friend name
+          </label>
+          <input type="text" class="form-control" formControlName="UserName" required placeholder="Enter name" [ngClass]="{'is-invalid': displayMessage.UserName}" />
+          <span class="invalid-feedback">
+            {{displayMessage.UserName}}
+            
+          </span>
+        </div>
+        <div class="form-group">
+          <label for="email_address">
+            Here’s friend email address:
+          </label>
+          <input type="email" class="form-control" formControlName="UserEmail" required placeholder="Enter Email Address" [ngClass]="{'is-invalid': displayMessage.UserEmail}" />
+          <span class="invalid-feedback">
+            {{displayMessage.userEmail}}
+          </span>
+        </div>
+        <button type="submit" class="btn" style="background-color:#ff652f;color:white">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
